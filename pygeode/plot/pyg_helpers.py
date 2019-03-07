@@ -83,9 +83,9 @@ def set_xaxis(axes, axis, lbl, xscale=True):
   axes.setp_xaxis(**axprm)
 
   if len(label) > 0 and lbl:
-    axes.pad = [pl, 0.5, pr, 0.3]
+    axes.pad = [pl, pb+0.4, pr, pt+0.4]
   else:
-    axes.pad = [pl, 0.3, pr, 0.3]
+    axes.pad = [pl, pb+0.2, pr, pt+0.2]
 # }}}
 
 def set_yaxis(axes, axis, lbl, yscale=True):
@@ -109,9 +109,9 @@ def set_yaxis(axes, axis, lbl, yscale=True):
   axes.setp_yaxis(**axprm)
 
   if len(label) > 0 and lbl:
-    axes.pad = [0.8, pb, 0.1, pt]
+    axes.pad = [pl+0.7, pb, pr, pt]
   else:
-    axes.pad = [0.5, pb, 0.1, pt]
+    axes.pad = [pl+0.4, pb, pr, pt]
 # }}}
 
 def build_basemap(lons, lats, **kwargs):
@@ -162,7 +162,7 @@ def decorate_basemap(axes, **kwargs):
   merd.update(kwargs.pop('meridians', {}))
   pard.update(kwargs.pop('parallels', {}))
 
-  axes.pad=(0.6, 0.4, 0.4, 0.4)
+  if axes.pad is None: axes.pad=(0.6, 0.4, 0.4, 0.4)
   if prd.get('resolution', 'c') is not None:
     axes.drawcoastlines(**cld)
     axes.drawmeridians(**merd)
@@ -290,7 +290,7 @@ def vplot(var, fmt='', axes=None, transpose=False, lblx=True, lbly=True, **kwarg
 
   # Apply the custom axes args
   if not hold:
-    axes.pad = (0.1, 0.1, 0.1, 0.1)
+    if axes.pad is None: axes.pad = (0.1, 0.1, 0.1, 0.1)
     set_xaxis(axes, X, lblx, scalex)
     set_yaxis(axes, Y, lbly, scaley)
     plt = _getplotatts(var)
@@ -318,7 +318,7 @@ def vhist(var, axes=None, lblx=True, lbly=True, **kwargs):
   axes = wr.hist(v, axes=axes, **kwargs)
 
   # Apply the custom axes args
-  axes.pad = (0.1, 0.1, 0.1, 0.1)
+  if axes.pad is None: axes.pad = (0.1, 0.1, 0.1, 0.1)
   set_xaxis(axes, V, lblx)
   plt = _getplotatts(var)
   lbl = _buildvartitle(var.axes, **plt)
@@ -354,7 +354,7 @@ def vscatter(varx, vary, axes=None, lblx=True, lbly=True, **kwargs):
   axes = wr.scatter(x, y, axes=axes, **kwargs)
 
   # Apply the custom axes args
-  axes.pad = (0.1, 0.1, 0.1, 0.1)
+  if axes.pad is None: axes.pad = (0.1, 0.1, 0.1, 0.1)
   set_xaxis(axes, varx, lblx)
   set_yaxis(axes, vary, lbly)
 
@@ -463,7 +463,7 @@ def vcontour(var, clevs=None, clines=None, axes=None, lblx=True, lbly=True, labe
     if wr.isbasemapaxis(axes):
       decorate_basemap(axes, **kwargs)
     else:
-      axes.pad = (0.1, 0.1, 0.1, 0.1)
+      if axes.pad is None: axes.pad = (0.1, 0.1, 0.1, 0.1)
       set_xaxis(axes, X, lblx)
       set_yaxis(axes, Y, lbly)
     plt = _getplotatts(var)
@@ -609,7 +609,7 @@ def vstreamplot(varu, varv, axes=None, lblx=True, lbly=True, label=True, transpo
 
   # Apply the custom axes args
   if label:
-    axes.pad = (0.1, 0.1, 0.1, 0.1)
+    if axes.pad is None: axes.pad = (0.1, 0.1, 0.1, 0.1)
     if wr.isbasemapaxis(axes):
       decorate_basemap(axes, map = map, **kwargs)
     else:
@@ -673,7 +673,7 @@ def vquiver(varu, varv, varc=None, axes=None, lblx=True, lbly=True, label=True, 
 
   # Apply the custom axes args
   if label:
-    axes.pad = (0.1, 0.1, 0.1, 0.1)
+    if axes.pad is None: axes.pad = (0.1, 0.1, 0.1, 0.1)
     if wr.isbasemapaxis(axes):
       decorate_basemap(axes, map = map, **kwargs)
     else:
