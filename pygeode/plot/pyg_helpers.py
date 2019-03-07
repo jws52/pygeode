@@ -83,7 +83,7 @@ def set_xaxis(axes, axis, lbl, xscale=True):
   axes.setp_xaxis(**axprm)
 
   if len(label) > 0 and lbl:
-    axes.pad = [pl, pb+0.4, pr, pt+0.4]
+    axes.pad = [pl, pb+0.4, pr, pt+0.2]
   else:
     axes.pad = [pl, pb+0.2, pr, pt+0.2]
 # }}}
